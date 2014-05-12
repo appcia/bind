@@ -20,7 +20,7 @@ class PhpData extends Data
             $serial = Php::encode($this->data);
         }
 
-        $this->read($serial);
+        $this->write($serial);
 
         return $this;
     }
@@ -30,7 +30,7 @@ class PhpData extends Data
      */
     protected function decode()
     {
-        $data = $this->write();
+        $data = $this->read();
         if (Php::encode($data)) {
             $data = Php::decode($data);
         }

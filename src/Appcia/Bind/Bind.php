@@ -2,8 +2,6 @@
 
 namespace Appcia\Bind;
 
-use Appcia\Utils\Arrays;
-
 /**
  * Wrapper for automatic serialization of array
  */
@@ -12,12 +10,12 @@ abstract class Bind
     /**
      * @var callable
      */
-    protected $reader;
+    protected $writer;
 
     /**
      * @var callable
      */
-    protected $writer;
+    protected $reader;
 
     /**
      * @var mixed
@@ -146,9 +144,9 @@ abstract class Bind
      *
      * @return $this
      */
-    protected function read($data)
+    protected function write($data)
     {
-        $callback = $this->reader;
+        $callback = $this->writer;
         $callback($data);
 
         return $this;
@@ -159,9 +157,9 @@ abstract class Bind
      *
      * @return mixed
      */
-    protected function write()
+    protected function read()
     {
-        $callback = $this->writer;
+        $callback = $this->reader;
         $origin = $callback();
 
         return $origin;
