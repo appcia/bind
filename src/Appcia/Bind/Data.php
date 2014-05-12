@@ -43,6 +43,26 @@ abstract class Data extends Bind implements \IteratorAggregate, \Countable, \Arr
     }
 
     /**
+     * Push mixed value as data
+     *
+     * @param mixed $data
+     *
+     * @return $this
+     */
+    public function push($data)
+    {
+        if (is_array($data)) {
+            $data = Arrays::extend($this->getData(), $data);
+        } elseif (is_string($data)) {
+            $data = Arrays::parse($data);
+        }
+
+        $this->setData($data);
+
+        return $this;
+    }
+
+    /**
      * Remove value by key
      *
      * @param int|string $key
@@ -92,16 +112,19 @@ abstract class Data extends Bind implements \IteratorAggregate, \Countable, \Arr
     /**
      * Check whether bind data is array (key / value storage)
      *
-     * @return $this
+     * @param bool $verbose
+     *
      * @throws \UnexpectedValueException
+     * @return $this
      */
-    protected function check()
+    protected function check($verbose = true)
     {
-        if (!is_array($this->data)) {
+        $valid = is_array($this->data);
+        if (!$valid && $verbose) {
             throw new \UnexpectedValueException(sprintf("Bind data is not an array: '%s'", gettype($this->data)));
         }
 
-        return $this;
+        return $valid;
     }
 
     /**
@@ -160,5 +183,17 @@ abstract class Data extends Bind implements \IteratorAggregate, \Countable, \Arr
         return $this->has($offset)
             ? $this->get($offset)
             : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        if ($this->check(false)) {
+            return Arrays::compose($this->data);
+        } else {
+            return parent::__toString();
+        }
     }
 }

@@ -54,6 +54,14 @@ abstract class Bind
     }
 
     /**
+     * Bind data / make it ready to be saved in storage (e.g database)
+     * Data should be transformed to string (serialized, etc)
+     *
+     * @return mixed
+     */
+    abstract protected function encode();
+
+    /**
      * Unbind data / restore its original format (before binding)
      * Data should be transformed to original format (unserialized, etc)
      *
@@ -69,14 +77,8 @@ abstract class Bind
     abstract protected function getDefault();
 
     /**
-     * Bind data / make it ready to be saved in storage (e.g database)
-     * Data should be transformed to string (serialized, etc)
+     * Get string representation
      *
-     * @return mixed
-     */
-    abstract protected function encode();
-
-    /**
      * @return string
      */
     public function __toString()
@@ -111,12 +113,6 @@ abstract class Bind
      */
     public function push($data)
     {
-        if (is_array($data)) {
-            $data = Arrays::extend($this->getData(), $data);
-        } elseif (is_string($data)) {
-            $data = Arrays::parse($data);
-        }
-
         $this->setData($data);
 
         return $this;
