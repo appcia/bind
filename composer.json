@@ -1,0 +1,19 @@
+{
+    "name": "appcia/bind",
+    "description": "Wrapper for data with automatic serializing / unserializing",
+    "authors": [
+        {
+            "name": "ciapunek",
+            "email": "ciapunek@gmail.com"
+        }
+    ],
+    "type": "library",
+    "keywords": ["bind", "serialize", "php", "json", "data", "array"],
+    "homepage": "http://appcia.pl",
+    "license": "MIT",
+    "require": {
+    },
+    "autoload": {
+        "psr-0": { "Appcia\\Bind": "src/" }
+    }
+}
