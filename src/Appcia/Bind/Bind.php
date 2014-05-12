@@ -52,6 +52,38 @@ abstract class Bind
     }
 
     /**
+     * Factory method (useful when chained)
+     *
+     * @param callable $reader
+     * @param callable $writer
+     *
+     * @return static
+     */
+    public static function factory($reader, $writer)
+    {
+        return new static($reader, $writer);
+    }
+
+    /**
+     * Wrap bind, attach reader and writer and push value at once
+     * Most commonly used combination
+     *
+     * @param object $model ORM model with magic getter / setters
+     * @param string $prop  ORM property name
+     * @param mixed  $data  Data to store
+     *
+     * @return $this
+     */
+    public static function wrap($model, $prop, $data = null)
+    {
+        return static::factory(function () use ($model, $prop) {
+            return $model->{$prop};
+        }, function ($serial) use ($model, $prop) {
+            $model->{$prop} = $serial;
+        })->act($data);
+    }
+
+    /**
      * Bind data / make it ready to be saved in storage (e.g database)
      * Data should be transformed to string (serialized, etc)
      *
