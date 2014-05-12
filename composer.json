@@ -12,6 +12,7 @@
     "homepage": "http://appcia.pl",
     "license": "MIT",
     "require": {
+        "appcia/utils": "1.*@dev"
     },
     "autoload": {
         "psr-0": { "Appcia\\Bind": "src/" }
