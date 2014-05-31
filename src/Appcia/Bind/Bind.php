@@ -23,6 +23,11 @@ abstract class Bind
     protected $data;
 
     /**
+     * @var mixed
+     */
+    protected $prop;
+
+    /**
      * Constructor
      *
      * @param callable $reader
@@ -76,11 +81,14 @@ abstract class Bind
      */
     public static function wrap($model, $prop, $data = null)
     {
-        return static::factory(function () use ($model, $prop) {
+        $bind = static::factory(function () use ($model, $prop) {
             return $model->{$prop};
         }, function ($serial) use ($model, $prop) {
             $model->{$prop} = $serial;
-        })->act($data);
+        });
+        $bind->prop = $prop;
+
+        return $bind->act($data);
     }
 
     /**
@@ -167,6 +175,16 @@ abstract class Bind
         $this->encode();
 
         return $this;
+    }
+
+    /**
+     * Get wrapped property
+     *
+     * @return mixed
+     */
+    public function getProp()
+    {
+        return $this->prop;
     }
 
     /**
