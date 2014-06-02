@@ -186,6 +186,22 @@ abstract class Data extends Bind implements \IteratorAggregate, \Countable, \Arr
     }
 
     /**
+     * @see get()
+     */
+    public function __get($property)
+    {
+        return $this->get($property);
+    }
+
+    /**
+     * @see set()
+     */
+    public function __set($property, $value)
+    {
+        $this->set($property, $value);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function __toString()
