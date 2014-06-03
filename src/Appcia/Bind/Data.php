@@ -152,6 +152,31 @@ abstract class Data extends Bind implements \IteratorAggregate, \Countable, \Arr
     }
 
     /**
+     * Set value as string representation from an array
+     *
+     * @param mixed $key
+     * @param array $value
+     *
+     * @return $this
+     */
+    public function compose($key, $value)
+    {
+        return $this->set($key, Arrays::compose($value));
+    }
+
+    /**
+     * Get value as an array from string representation
+     *
+     * @param mixed $key
+     *
+     * @return array
+     */
+    public function parse($key)
+    {
+        return Arrays::parse($this->get($key));
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function offsetSet($offset, $value)
